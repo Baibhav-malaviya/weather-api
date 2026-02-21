@@ -15,23 +15,26 @@ namespace WeatherApp.Services
         {
             _jwtSettings = options.Value;
         }
-        public string GenerateToken(string username)
+        public string GenerateToken(string username, int userId)
         {
             var claims = new[]
             {
-                new Claim(ClaimTypes.Name, username)
-            };
+        new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
+        new Claim(ClaimTypes.Name, username)
+    };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key));
+            var key = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(_jwtSettings.Key));
 
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var creds = new SigningCredentials(
+                key, SecurityAlgorithms.HmacSha256);
 
             var jwt = new JwtSecurityToken(
                 issuer: _jwtSettings.Issuer,
                 audience: _jwtSettings.Audience,
                 claims: claims,
-                signingCredentials: creds,
-                expires: DateTime.UtcNow.AddDays(3)
+                expires: DateTime.UtcNow.AddDays(3),
+                signingCredentials: creds
             );
 
             return new JwtSecurityTokenHandler().WriteToken(jwt);

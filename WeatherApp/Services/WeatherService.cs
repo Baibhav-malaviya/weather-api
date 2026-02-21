@@ -1,4 +1,6 @@
-﻿using WeatherApp.Services.Interfaces;
+﻿using System.Text.Json;
+using WeatherApp.Models;
+using WeatherApp.Services.Interfaces;
 
 namespace WeatherApiJwt.Services;
 
@@ -13,18 +15,34 @@ public class WeatherService : IWeatherService
         _configuration = configuration;
     }
 
-    public async Task<string> GetWeatherAsync(string city)
+    public async Task<OpenWeatherResponse> GetWeatherAsync(string city)
     {
         var baseUrl = _configuration["WeatherApi:BaseUrl"];
         var apiKey = _configuration["WeatherApi:ApiKey"];
+
         var finalUrl = $"{baseUrl}weather?q={city}&appid={apiKey}&units=metric";
 
         var response = await _httpClient.GetAsync(finalUrl);
 
-        Console.WriteLine("RESPONSE: " + response);
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception("Weather API call failed");
+        }
 
-        response.EnsureSuccessStatusCode();
+        var json = await response.Content.ReadAsStringAsync();
 
-        return await response.Content.ReadAsStringAsync();
+        var result = JsonSerializer.Deserialize<OpenWeatherResponse>(
+            json,
+            new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
+
+        if (result == null)
+        {
+            throw new Exception("Failed to deserialize weather response");
+        }
+
+        return result;
     }
 }

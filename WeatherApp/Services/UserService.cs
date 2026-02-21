@@ -1,17 +1,26 @@
-﻿using System.Security.Cryptography;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
 using System.Text;
-using WeatherApp.Models;
+
+using WeatherApp.Data;
+using WeatherApp.Entities;
 using WeatherApp.Services.Interfaces;
 
 namespace WeatherApp.Services
 {
     public class UserService : IUserService
     {
-        private static List<User> _users = new();
-        public Task<bool> RegisterAsync(string username, string password)
+        private readonly AppDbContext _context;
+
+        public UserService(AppDbContext context)
         {
-            if (_users.Any(u => u.Username == username))
-                return Task.FromResult(false);
+            _context = context;
+        }
+        public async Task<bool> RegisterAsync(string username, string password)
+        {
+            // check if user alrady exist
+            if (await _context.Users.AnyAsync(u => u.Username == username))
+                return false;
 
             var user = new User
             {
@@ -19,30 +28,28 @@ namespace WeatherApp.Services
                 PasswordHash = HashPassword(password)
             };
 
-            _users.Add(user);
+            // add new user to the dbs
+            await _context.Users.AddAsync(user);
+            await _context.SaveChangesAsync();
 
-            return Task.FromResult(true);
+            return true ;
         }
 
-        public Task<User?> ValidateUserAsync(string username, string password)
+        public async Task<User?> ValidateUserAsync(string username, string password)
         {
-            var user = _users.FirstOrDefault(u => u.Username == username);
+            // check if user exist
+            User user = await _context.Users.FirstAsync(user => user.Username == username);
 
-            if(user == null)
-            {
-                Console.WriteLine("User not registered.");
-                return Task.FromResult<User?>(null);
-            }
+            if (user == null)
+                return null;
 
             var hashPassword = HashPassword(password);
 
-            if (hashPassword != user.PasswordHash)
-            {
-                Console.WriteLine("Incorrect password");
-                return Task.FromResult<User?>(null);
-            }
+            // check for password match
+            if (user.PasswordHash != hashPassword)
+                return null;
 
-            return Task.FromResult(user);
+            return user;
         }
 
         private string HashPassword(string password)

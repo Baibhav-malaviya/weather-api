@@ -1,7 +1,9 @@
-﻿namespace WeatherApp.Services.Interfaces
+﻿using WeatherApp.Models;
+
+namespace WeatherApp.Services.Interfaces
 {
     public interface IWeatherService
     {
-        Task<string> GetWeatherAsync(string city);
+        Task<OpenWeatherResponse> GetWeatherAsync(string city);
     }
 }

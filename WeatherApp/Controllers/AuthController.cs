@@ -42,7 +42,7 @@ public class AuthController : ControllerBase
         if (user == null)
             return Unauthorized();
 
-        var token = _tokenService.GenerateToken(user.Username);
+        var token = _tokenService.GenerateToken(user.Username, user.Id);
 
         return Ok(new { token });
     }
