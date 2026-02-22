@@ -12,6 +12,7 @@ weather-ui/.cache/
 WeatherAppSolution/**/bin/
 WeatherAppSolution/**/obj/
 WeatherAppSolution/**/TestResults/
+WeatherAppSolution/.VS
 
 ############################
 # Logs

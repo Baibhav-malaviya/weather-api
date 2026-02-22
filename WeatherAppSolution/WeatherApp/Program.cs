@@ -66,15 +66,20 @@ builder.Services.AddCors(options =>
     });
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAny", policy =>
+    {
+        policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+    });
+});
+
 builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
-if (!app.Environment.IsProduction())
-{
-    app.UseHttpsRedirection();
-}
-app.UseCors("AllowAngularApp");
+
+app.UseCors("AllowAny");
 
 app.UseAuthentication();
 app.UseAuthorization();
