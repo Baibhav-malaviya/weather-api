@@ -1,113 +1,40 @@
-## Build artifacts
-bin/
-obj/
-out/
-**/Debug/
-**/Release/
-*.dll
-*.exe
-*.pdb
-*.cache
+############################
+# Angular
+############################
+weather-ui/node_modules/
+weather-ui/dist/
+weather-ui/.angular/
+weather-ui/.cache/
+
+############################
+# .NET
+############################
+WeatherAppSolution/**/bin/
+WeatherAppSolution/**/obj/
+WeatherAppSolution/**/TestResults/
+
+############################
+# Logs
+############################
 *.log
 
-## ASP.NET Core generated files
-*.db
-*.db-shm
-*.db-wal
-*.sqlite
-generated/
+############################
+# OS Files
+############################
+.DS_Store
+Thumbs.db
 
-## User-specific files
+############################
+# VS / VS Code
+############################
+.vscode/
+.idea/
 *.suo
 *.user
 *.userosscache
-*.userprefs
-*.pidb
-*.svd
-*.psess
-*.vsp
-*.vspx
+*.sln.docstates
 
-## Visual Studio
-.vs/
-*.vcxproj.user
-*.vscode/
-
-## NuGet packages
-*.nupkg
-*.snupkg
-packages/
-**/project.lock.json
-**/project.assets.json
-.nuget/
-
-## IIS / Hosting
-iisexpress/
-appsettings.Development.json
-appsettings.*.json
-
-## Logs & temp
-*.log
-*.tlog
-*.tmp
-*.temp
-logs/
-
-## Rider
-.idea/
-
-## Resharper
-_ReSharper*/
-*.[Rr]e[Ss]harper
-
-## SonarQube
-.sonarqube/
-
-## Coverage
-coverage/
-*.coverage
-*.coveragexml
-
-## Publish profiles
-Properties/PublishProfiles/
-
-## Docker
-docker-compose.override.yml
-docker-compose.*.yml
-
-## Entity Framework Migrations (optional)
-# Remove this line if you want migrations tracked
-*Migrations/
-
-## Other
-*.orig
-*.bak
-*.swp
-*.DS_Store
-Thumbs.db
-
-# Build outputs
-**/bin/
-**/obj/
-**/out/
-
-# IDE
-.vs/
-.vscode/
-.idea/
-
-# SonarQube
-.sonarqube/*
-
-
-# Logs/temp
-*.log
-*.tmp
-*.temp
-logs/
-
-# NuGet
-*.nupkg
-*.snupkg
-packages/
-**/project.assets.json
+############################
+# Docker
+############################
+**/.dockerignore
