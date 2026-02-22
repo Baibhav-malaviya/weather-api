@@ -1,0 +1,18 @@
+<header class="w-full border-b border-gray-300 flex items-center justify-between px-8 py-4">
+  <h1 class="font-bold text-red-900 text-xl italic"><a routerLink="">Weather App</a></h1>
+  <nav class="flex gap-4">
+
+    @if(isLoggedIn) {
+      <a (click)="logout()" class="text-sm font-semibold hover:cursor-pointer hover:underline">Logout</a>
+    } @else {
+      <a routerLink="/login" class="text-sm font-semibold hover:cursor-pointer hover:underline">Login</a>
+    }
+    
+    <a routerLink="/register" class="text-sm font-semibold hover:cursor-pointer hover:underline">Register</a>
+    <a routerLink="/weather" class="text-sm font-semibold hover:cursor-pointer hover:underline">Weather</a>
+  </nav>
+</header>
+<main class="h-screen w-full">
+  <router-outlet></router-outlet>
+</main>
+<!-- <footer>THis is footer</footer> -->
