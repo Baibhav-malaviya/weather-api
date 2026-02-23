@@ -1,4 +1,4 @@
-<section class="w-full flex flex-col items-center justify-center my-8 bg-amber-600">
+<section class="w-full flex flex-col items-center justify-center my-8">
     <div class="flex flex-col gap-2 bg-white p-8 border border-gray-300 rounded-2xl w-1/2">
         <div class="flex items-center justify-between gap-0.5">
             <input [(ngModel)]="city" placeholder="Enter city" class="w-full border border-gray-300 px-3 py-1 rounded-2xl focus:border-gray-500 focus:outline-none">
@@ -6,7 +6,7 @@
         </div>
     </div>
 
-    <div class="mt-8 w-1/2">
+    <div class="mt-8 w-1/2 ">
         @if(weatherData) {
 
             <div class="bg-white rounded-2xl p-6 border border-gray-200">
@@ -59,6 +59,8 @@
         }
     </div>
     
-    <app-weather-history/>
+    <div class=" w-1/2">
+        <app-weather-history/>
+    </div>
 </section>
 

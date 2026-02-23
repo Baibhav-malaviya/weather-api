@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { NgIf, NgFor } from '@angular/common';
 
 interface WeatherDto {
   city: string;
