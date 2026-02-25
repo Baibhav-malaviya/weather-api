@@ -38,7 +38,8 @@ namespace WeatherApp.Services
         public async Task<User?> ValidateUserAsync(string username, string password)
         {
             // check if user exist
-            User user = await _context.Users.FirstAsync(user => user.Username == username);
+            var user = await _context.Users
+                .FirstOrDefaultAsync(u => u.Username == username);
 
             if (user == null)
                 return null;

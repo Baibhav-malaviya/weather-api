@@ -12,7 +12,7 @@ using WeatherApp.Data;
 namespace WeatherApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260222143450_InitialCreate")]
+    [Migration("20260225184209_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

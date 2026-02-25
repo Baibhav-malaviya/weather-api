@@ -27,7 +27,10 @@ public class AuthController : ControllerBase
             .RegisterAsync(request.Username, request.Password);
 
         if (!success)
-            return BadRequest("User already exists.");
+            return BadRequest(new
+            {
+                message = "User already exists.",
+            });
 
         return Ok("User registered successfully.");
     }
@@ -40,7 +43,11 @@ public class AuthController : ControllerBase
             .ValidateUserAsync(request.Username, request.Password);
 
         if (user == null)
-            return Unauthorized();
+            return Unauthorized(new
+            {
+                message = "Invalid username or password",
+            });
+
 
         var token = _tokenService.GenerateToken(user.Username, user.Id);
 

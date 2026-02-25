@@ -9,4 +9,7 @@
             <a routerLink="/login" class="text-blue-500 hover:cursor-pointer hover:underline">Already an user?</a>
         </div>
     </div>
+    @if (errorMsg) {
+        <div class="outline-dashed outline-red-500 rounded-2xl p-4 bg-red-200 text-red-500 w-1/2 text-center">{{errorMsg}}</div>
+    }
 </section>

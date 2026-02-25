@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import {FormsModule} from '@angular/forms'
 import { Router, RouterLink } from "@angular/router";
+import { errorContext } from 'rxjs/internal/util/errorContext';
 
 @Component({
   selector: 'app-register',
@@ -11,6 +12,7 @@ import { Router, RouterLink } from "@angular/router";
 })
 export class Register {
    formState = {username: "", password: ""};
+   errorMsg: string | undefined;
 
     constructor(private http: HttpClient, private router: Router) {}
 
@@ -25,11 +27,12 @@ export class Register {
         next: (res: any) => {
           console.log("Register success:", res);
           setTimeout(() => {
-            this.router.navigate(['/login'])
-          }, 2000)
+            this.router.navigate(['login'])
+          }, 1500)
         },
         error: (err) => {
           console.error("Register failed:", err);
+          this.errorMsg = err.error.message;
         }
       });
     }
