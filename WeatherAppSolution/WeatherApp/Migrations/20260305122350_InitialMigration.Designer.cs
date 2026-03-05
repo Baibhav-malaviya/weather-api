@@ -12,8 +12,8 @@ using WeatherApp.Data;
 namespace WeatherApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260222143450_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20260305122350_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

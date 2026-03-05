@@ -10,19 +10,22 @@ public class AuthController : ControllerBase
 {
     private readonly ITokenService _tokenService;
     private readonly IUserService _userService;
+    private readonly ILogger<AuthController> _logger;
 
     public AuthController(
         ITokenService tokenService,
-        IUserService userService)
+        IUserService userService,
+        ILogger<AuthController> logger)
     {
         _tokenService = tokenService;
         _userService = userService;
+        _logger = logger;
     }
 
     [HttpPost("register")]
     public async Task<IActionResult> Register(Register request)
     {
-        Console.WriteLine("Welcome to Register");
+        _logger.LogInformation("Welcome to register {@request}", request);
         var success = await _userService
             .RegisterAsync(request.Username, request.Password);
 
@@ -35,7 +38,7 @@ public class AuthController : ControllerBase
     [HttpPost("login")]
     public async Task<IActionResult> Login(Login request)
     {
-        Console.WriteLine("Welcome to login");
+        _logger.LogInformation("Welcome to register {@request}", request);
         var user = await _userService
             .ValidateUserAsync(request.Username, request.Password);
 
