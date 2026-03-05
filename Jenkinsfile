@@ -15,9 +15,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git branch: 'main',
-                    credentialsId: 'github-pat',
-                    url: 'https://github.com/Baibhav-malaviya/weather-api.git'
+                checkout scm
             }
         }
 
