@@ -16,28 +16,34 @@ public class WeatherController : ControllerBase
 {
     private readonly IWeatherService _weatherService;
     private readonly AppDbContext _context;
+    private readonly ILogger<WeatherController> _logger;
 
     public WeatherController(
         IWeatherService weatherService,
-        AppDbContext context)
+        AppDbContext context,
+        ILogger<WeatherController> logger)
     {
         _weatherService = weatherService;
         _context = context;
+        _logger = logger;
     }
 
     [HttpGet("{city}")]
     public async Task<IActionResult> GetWeather(string city)
     {
-        Console.WriteLine("Welcome to GetWeather");
-        var weather = await _weatherService.GetWeatherAsync(city);
 
-        // Extract userId from JWT
+        //todo: Extract userId from JWT
         var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
         if (userIdClaim == null)
+        {
+            _logger.LogInformation("User is unauthorized");
             return Unauthorized();
+        }
 
         var userId = int.Parse(userIdClaim);
+
+        var weather = await _weatherService.GetWeatherAsync(city);
 
         // Save history
         var history = new WeatherHistory
@@ -56,6 +62,8 @@ public class WeatherController : ControllerBase
 
         _context.WeatherHistories.Add(history);
         await _context.SaveChangesAsync();
+
+        _logger.LogInformation("Weather fetched successfully {@weather}", weather);
 
         return Ok(weather);
     }
@@ -97,6 +105,7 @@ public class WeatherController : ControllerBase
             })
             .ToListAsync();
 
+        _logger.LogInformation("History fetched successfully {@data}", data);
 
         return Ok(new
         {

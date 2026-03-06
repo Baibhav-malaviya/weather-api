@@ -7,8 +7,14 @@ using WeatherApiJwt.Settings;
 using WeatherApp.Data;
 using WeatherApp.Services;
 using WeatherApp.Services.Interfaces;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog((context, configuration) =>
+{
+    configuration.ReadFrom.Configuration(context.Configuration); // here we can also use builder.Configuration
+});
 
 // Bind settings
 builder.Services.Configure<JwtSettings>(
@@ -81,15 +87,11 @@ var app = builder.Build();
 
 app.UseCors("AllowAny");
 
+app.UseSerilogRequestLogging();
+
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    db.Database.Migrate();
-}
 
 app.Run();
